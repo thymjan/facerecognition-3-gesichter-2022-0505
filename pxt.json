@@ -1,5 +1,5 @@
 {
-    "name": "FaceRecognition 3 Gesichter 2022-0508 optimized mit Motor",
+    "name": "FaceFollower 2022-0508",
     "description": "",
     "dependencies": {
         "core": "*",
