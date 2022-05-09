@@ -1,4 +1,5 @@
-let recognizedID = 0
+let positionX = 0
+let width = 0
 basic.showIcon(IconNames.No)
 huskylens.initI2c()
 huskylens.initMode(protocolAlgorithm.ALGORITHM_FACE_RECOGNITION)
@@ -8,31 +9,17 @@ let numberFaces = facelist.length
 basic.showString("" + (numberFaces))
 basic.pause(500)
 basic.clearScreen()
-let NewX = 0
-let OldX = 0
-let XL = 50
-let XR = 50
-let Grundgeschwindigkeit = 75
 basic.forever(function () {
     huskylens.request()
-    NewX = huskylens.readBox_s(Content3.xCenter)
-    recognizedID = huskylens.readBox_s(Content3.ID)
-    if (OldX != NewX && recognizedID > 0) {
-        if (Grundgeschwindigkeit < 75) {
-            Grundgeschwindigkeit += 1
-        }
-        XL = Grundgeschwindigkeit + Math.map(NewX, 0, 320, -25, 25)
-        XR = Grundgeschwindigkeit - Math.map(NewX, 0, 320, -25, 25)
-        motors.dualMotorPower(Motor.A, XR)
-        motors.dualMotorPower(Motor.B, XL)
-        OldX = NewX
-    } else if (recognizedID < 0) {
-        if (Grundgeschwindigkeit >= 1) {
-            Grundgeschwindigkeit += -1
-            XL = Grundgeschwindigkeit
-            XR = Grundgeschwindigkeit
-            motors.dualMotorPower(Motor.A, XR)
-            motors.dualMotorPower(Motor.B, XL)
-        }
+    if (width != huskylens.readBox_s(Content3.width)) {
+        width = huskylens.readBox_s(Content3.width)
+    }
+    if (positionX != huskylens.readBox_s(Content3.xCenter)) {
+        positionX = huskylens.readBox_s(Content3.xCenter)
+    }
+    if (width > 0) {
+        huskylens.writeOSD("width: " + convertToText(width) + ", X: " + convertToText(positionX), 150, 30)
+    } else {
+        huskylens.clearOSD()
     }
 })
