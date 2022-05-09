@@ -13,13 +13,18 @@ basic.forever(function () {
     huskylens.request()
     if (width != huskylens.readBox_s(Content3.width)) {
         width = huskylens.readBox_s(Content3.width)
+        if (width > 0) {
+            huskylens.writeOSD("width: " + convertToText(width), 20, 30)
+        } else {
+            huskylens.writeOSD("width: ---", 20, 30)
+        }
     }
     if (positionX != huskylens.readBox_s(Content3.xCenter)) {
         positionX = huskylens.readBox_s(Content3.xCenter)
-    }
-    if (width > 0) {
-        huskylens.writeOSD("width: " + convertToText(width) + ", X: " + convertToText(positionX), 150, 30)
-    } else {
-        huskylens.clearOSD()
+        if (width > 0) {
+            huskylens.writeOSD("X: " + convertToText(positionX), 180, 30)
+        } else {
+            huskylens.writeOSD("X: ---", 180, 30)
+        }
     }
 })
